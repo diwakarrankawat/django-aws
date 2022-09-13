@@ -1,0 +1,29 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      # - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 795602562705.dkr.ecr.us-east-2.amazonaws.com
+      - docker login --username AWS -p $(aws ecr get-login-password --region us-east-1) 473626464363.dkr.ecr.us-east-1.amazonaws.com
+      - REPOSITORY_URI=$473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - IMAGE_TAG=${COMMIT_HASH:=latest}
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker-compose build
+      - docker tag 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:latest 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:$IMAGE_TAG
+      - docker tag 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-nginx:latest 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:$IMAGE_TAG
+  post_build:
+    commands: 
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:latest
+      - docker push 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-nginx:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"django-build","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+artifacts:
+    files: imagedefinitions.json
