@@ -24,6 +24,6 @@ phases:
       - docker push 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:$IMAGE_TAG
       # - docker push 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-nginx:latest
       - echo Writing image definitions file...
-      - printf '[{"name":"django-default","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"django-web","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
     files: imagedefinitions.json
