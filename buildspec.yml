@@ -14,15 +14,15 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker-compose build
+      - docker build -t $REPOSITORY_URI .
       - docker tag 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:latest 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:$IMAGE_TAG
-      - docker tag 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-nginx:latest 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:$IMAGE_TAG
+      # - docker tag 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-nginx:latest 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:$IMAGE_TAG
   post_build:
     commands: 
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:latest
-      - docker push 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-nginx:latest
+      # - docker push 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-nginx:latest
       - echo Writing image definitions file...
       - printf '[{"name":"django-build","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
