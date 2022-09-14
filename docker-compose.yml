@@ -3,19 +3,12 @@ version: '3.9'
 services:
   web:
     build:
-      context: ./gmaps_proj
+      context: ./
     image: 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-web:latest
     command: gunicorn gmaps_project.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
       - "8000:8000"
-    expose:
-      - 8000
-  nginx:
-    build: ./nginx
-    image: 473626464363.dkr.ecr.us-east-1.amazonaws.com/django-nginx:latest
-    ports:
-      - "8080:80"
-    depends_on:
-      - web
+    # expose:
+    #   - 8000
