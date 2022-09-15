@@ -46,4 +46,4 @@ class AllListings(ListCreateAPIView):
 
 
 def something(request):
-    return HttpResponse("<h1>Mess can update very well</h1>")
+    return HttpResponse("<h1>Updated from Ci/CD</h1>")
