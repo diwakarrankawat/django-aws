@@ -19,6 +19,4 @@ EXPOSE 80
 # RUN apk add nginx
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-RUN nginx -t
-RUN nginx
 CMD nginx && gunicorn --workers=3 --threads=3 gmaps_project.wsgi:application --bind unix:/app/guni.sock
