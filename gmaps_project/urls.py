@@ -19,6 +19,6 @@ from listings.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', AllListings.as_view()),
-    path('update/', something)
+    path('', flutter),
+    path('<str:page>/', flutter),
 ]

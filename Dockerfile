@@ -10,9 +10,10 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 COPY requirements.txt /app/
 RUN mkdir /app/staticfiles
+COPY stt/ /app/staticfiles
 RUN pip3 install -r requirements.txt
 COPY . /app/
-RUN python3 manage.py makemigrations && python3 manage.py migrate
+# RUN python3 manage.py makemigrations && python3 manage.py migrate
 RUN python3 manage.py collectstatic --noinput
 EXPOSE 8000
 EXPOSE 80
