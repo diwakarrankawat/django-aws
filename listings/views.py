@@ -46,4 +46,4 @@ class AllListings(ListCreateAPIView):
 
 
 def something(request):
-    return HttpResponse("<h1>Naya update</h1>")
+    return HttpResponse("<h1>This title will be updated</h1>")
